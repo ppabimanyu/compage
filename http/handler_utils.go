@@ -2,7 +2,7 @@ package http
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/ppabimanyu/goexception"
+	"github.com/ppabimanyu/compage/exception"
 	"strings"
 )
 
@@ -137,9 +137,9 @@ func (h *Handler) Data(c *fiber.Ctx, data any) error {
 	return h.ReturnByAccept(c, r)
 }
 
-func _exceptionResponse(exc *goexception.Exception) *Response {
+func _exceptionResponse(exc *exception.Exception) *Response {
 	var detailErr any
-	if exc.GetCode() == goexception.InvalidParameterCode {
+	if exc.GetCode() == exception.InvalidParameterCode {
 		detailErr = exc.GetErrorMap()
 	} else {
 		detailErr = exc.GetError()
@@ -160,7 +160,7 @@ func _exceptionResponse(exc *goexception.Exception) *Response {
 // Parameters:
 // - c: The Fiber context.
 // - exc: The exception to handle.
-func (h *Handler) ExceptionJSON(c *fiber.Ctx, exc *goexception.Exception) error {
+func (h *Handler) ExceptionJSON(c *fiber.Ctx, exc *exception.Exception) error {
 	r := _exceptionResponse(exc)
 	return h.JSON(c, r)
 }
@@ -170,12 +170,12 @@ func (h *Handler) ExceptionJSON(c *fiber.Ctx, exc *goexception.Exception) error 
 // Parameters:
 // - c: The Fiber context.
 // - exc: The exception to handle.
-func (h *Handler) ExceptionXML(c *fiber.Ctx, exc *goexception.Exception) error {
+func (h *Handler) ExceptionXML(c *fiber.Ctx, exc *exception.Exception) error {
 	r := _exceptionResponse(exc)
 	return h.XML(c, r)
 }
 
-func (h *Handler) Exception(c *fiber.Ctx, exc *goexception.Exception) error {
+func (h *Handler) Exception(c *fiber.Ctx, exc *exception.Exception) error {
 	r := _exceptionResponse(exc)
 	return h.ReturnByAccept(c, r)
 }
@@ -228,7 +228,7 @@ func (h *Handler) BadRequest(c *fiber.Ctx, msg string, err error) error {
 // - msg: The error message.
 // - err: Additional error details.
 func (h *Handler) NotFoundJSON(c *fiber.Ctx, msg string, err error) error {
-	return h.ExceptionJSON(c, goexception.NotFound(msg, err))
+	return h.ExceptionJSON(c, exception.NotFound(msg, err))
 }
 
 // NotFoundXML sends an XML response for a not found error.
@@ -238,11 +238,11 @@ func (h *Handler) NotFoundJSON(c *fiber.Ctx, msg string, err error) error {
 // - msg: The error message.
 // - err: Additional error details.
 func (h *Handler) NotFoundXML(c *fiber.Ctx, msg string, err error) error {
-	return h.ExceptionXML(c, goexception.NotFound(msg, err))
+	return h.ExceptionXML(c, exception.NotFound(msg, err))
 }
 
 func (h *Handler) NotFound(c *fiber.Ctx, msg string, err error) error {
-	return h.Exception(c, goexception.NotFound(msg, err))
+	return h.Exception(c, exception.NotFound(msg, err))
 }
 
 // ForbiddenJSON sends a JSON response for a forbidden error.
@@ -252,7 +252,7 @@ func (h *Handler) NotFound(c *fiber.Ctx, msg string, err error) error {
 // - msg: The error message.
 // - err: Additional error details.
 func (h *Handler) ForbiddenJSON(c *fiber.Ctx, msg string, err error) error {
-	return h.ExceptionJSON(c, goexception.PermissionDenied(msg, err))
+	return h.ExceptionJSON(c, exception.PermissionDenied(msg, err))
 }
 
 // ForbiddenXML sends an XML response for a forbidden error.
@@ -262,11 +262,11 @@ func (h *Handler) ForbiddenJSON(c *fiber.Ctx, msg string, err error) error {
 // - msg: The error message.
 // - err: Additional error details.
 func (h *Handler) ForbiddenXML(c *fiber.Ctx, msg string, err error) error {
-	return h.ExceptionXML(c, goexception.PermissionDenied(msg, err))
+	return h.ExceptionXML(c, exception.PermissionDenied(msg, err))
 }
 
 func (h *Handler) Forbidden(c *fiber.Ctx, msg string, err error) error {
-	return h.Exception(c, goexception.PermissionDenied(msg, err))
+	return h.Exception(c, exception.PermissionDenied(msg, err))
 }
 
 // UnauthorizedJSON sends a JSON response for an unauthorized error.
@@ -276,7 +276,7 @@ func (h *Handler) Forbidden(c *fiber.Ctx, msg string, err error) error {
 // - msg: The error message.
 // - err: Additional error details.
 func (h *Handler) UnauthorizedJSON(c *fiber.Ctx, msg string, err error) error {
-	return h.ExceptionJSON(c, goexception.Unauthenticated(msg, err))
+	return h.ExceptionJSON(c, exception.Unauthenticated(msg, err))
 }
 
 // UnauthorizedXML sends an XML response for an unauthorized error.
@@ -286,11 +286,11 @@ func (h *Handler) UnauthorizedJSON(c *fiber.Ctx, msg string, err error) error {
 // - msg: The error message.
 // - err: Additional error details.
 func (h *Handler) UnauthorizedXML(c *fiber.Ctx, msg string, err error) error {
-	return h.ExceptionXML(c, goexception.Unauthenticated(msg, err))
+	return h.ExceptionXML(c, exception.Unauthenticated(msg, err))
 }
 
 func (h *Handler) Unauthorized(c *fiber.Ctx, msg string, err error) error {
-	return h.Exception(c, goexception.Unauthenticated(msg, err))
+	return h.Exception(c, exception.Unauthenticated(msg, err))
 }
 
 // InternalServerErrorJSON sends a JSON response for an internal server error.
@@ -300,7 +300,7 @@ func (h *Handler) Unauthorized(c *fiber.Ctx, msg string, err error) error {
 // - msg: The error message.
 // - err: Additional error details.
 func (h *Handler) InternalServerErrorJSON(c *fiber.Ctx, msg string, err error) error {
-	return h.ExceptionJSON(c, goexception.Internal(msg, err))
+	return h.ExceptionJSON(c, exception.Internal(msg, err))
 }
 
 // InternalServerErrorXML sends an XML response for an internal server error.
@@ -310,11 +310,11 @@ func (h *Handler) InternalServerErrorJSON(c *fiber.Ctx, msg string, err error) e
 // - msg: The error message.
 // - err: Additional error details.
 func (h *Handler) InternalServerErrorXML(c *fiber.Ctx, msg string, err error) error {
-	return h.ExceptionXML(c, goexception.Internal(msg, err))
+	return h.ExceptionXML(c, exception.Internal(msg, err))
 }
 
 func (h *Handler) InternalServerError(c *fiber.Ctx, msg string, err error) error {
-	return h.Exception(c, goexception.Internal(msg, err))
+	return h.Exception(c, exception.Internal(msg, err))
 }
 
 func (h *Handler) GetTokenFromHeader(c *fiber.Ctx) string {
