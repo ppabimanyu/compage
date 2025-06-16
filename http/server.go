@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -10,7 +11,7 @@ import (
 )
 
 type Config struct {
-	Port             string
+	Port             int
 	CORS             bool
 	AllowOrigins     []string
 	AllowMethods     []string
@@ -19,6 +20,7 @@ type Config struct {
 }
 
 type Server struct {
+	config *Config
 	server *fiber.App
 }
 
@@ -45,9 +47,9 @@ func NewServer(config *Config) *Server {
 	}
 }
 
-func (h *Server) Start(port string) error {
-	slog.Info("Server: Starting server", "port", port)
-	return h.server.Listen(":" + port)
+func (h *Server) Start() error {
+	slog.Info("Server: Starting server", "port", h.config.Port)
+	return h.server.Listen(fmt.Sprintf(":%d", h.config.Port))
 }
 
 func (h *Server) Shutdown() error {
