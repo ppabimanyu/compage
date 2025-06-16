@@ -44,6 +44,7 @@ func NewServer(config *Config) *Server {
 	server.Use(LoggerMiddleware())
 	return &Server{
 		server: server,
+		config: config,
 	}
 }
 
